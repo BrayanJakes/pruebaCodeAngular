@@ -1,0 +1,106 @@
+<div class="dsiandiosa">
+  Prueba platos
+</div>
+<div class="container">
+  <p style="font-weight: 600;">Lista de platos   <button class="btn btn-primary" style="float: right;" (click)="open(content, 'Nuevo')">Crear plato</button> </p>
+
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th scope="col">#</th>
+			<th scope="col">Nombre</th>
+			<th scope="col">Precio</th>
+			<th scope="col">Campos</th>
+			<th scope="col">Fecha</th>
+			<th scope="col">Color</th>
+			<th scope="col">Inicio Actividad</th>
+			<th scope="col">Acciones</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr *ngFor="let plato of platos; index as i">
+			<th scope="row">{{ i + 1 }}</th>
+			<td> {{ plato.nombre }} </td>
+			<td> {{ plato.precio }} </td>
+			<td> {{ plato.campos }} </td>
+			<td> {{ plato.fecha }} </td>
+			<td> {{ plato.color }} </td>
+			<td> Hoy </td>
+			<td> <button class="btn btn-primary" (click)="open(content, 'Editar', plato)">Edit</button> &nbsp;&nbsp; 
+        <button class="btn btn-danger" (click)="deletePlatos(plato._id)">Delet</button> </td>
+		</tr>
+	</tbody>
+</table>
+</div>
+
+<ng-template #content let-modal>
+	<div class="modal-header">
+		<h4 class="modal-title" id="modal-basic-title" *ngIf="option === 'Nuevo'">Crear plato</h4>
+		<h4 class="modal-title" id="modal-basic-title" *ngIf="option === 'Editar'">Editar plato</h4>
+		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+	</div>
+	<div class="modal-body">
+		<form [formGroup]="form">
+			<div class="mb-3">
+				<label>Nombre del plato</label>
+				<div class="input-group">
+					<input
+            formControlName="nombre"
+						class="form-control"
+					/>
+				</div>
+			</div>
+
+      <div class="mb-3">
+				<label>Precio</label>
+				<div class="input-group">
+					<input type="number"
+          formControlName="precio"
+						class="form-control"
+					/>
+				</div>
+			</div>
+
+      <div class="mb-3">
+				<label>Campos</label>
+				<div class="input-group">
+					<input
+          formControlName="campos"
+						class="form-control"
+					/>
+				</div>
+			</div>
+
+      <div class="mb-3">
+				<label>Color</label>
+				<div class="input-group">
+					<input
+          formControlName="color"
+						class="form-control"
+					/>
+				</div>
+			</div>
+
+      <div class="mb-3">
+				<label>Fecha</label>
+				<div class="input-group">
+					<input
+          formControlName="fecha"
+						id="dateOfBirth"
+						class="form-control"
+						placeholder="yyyy-mm-dd"
+						name="dp"
+						ngbDatepicker
+						#dp="ngbDatepicker"
+					/>
+					<button class="btn btn-outline-secondary bi bi-calendar3" (click)="dp.toggle()" type="button"></button>
+				</div>
+			</div>
+
+      
+		</form>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')" [disabled]="form.invalid">Save</button>
+	</div>
+</ng-template>
