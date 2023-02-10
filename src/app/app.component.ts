@@ -10,32 +10,6 @@ interface Country {
 	population: number;
 }
 
-const COUNTRIES: Country[] = [
-	{
-		name: 'Russia',
-		flag: 'f/f3/Flag_of_Russia.svg',
-		area: 17075200,
-		population: 146989754,
-	},
-	{
-		name: 'Canada',
-		flag: 'c/cf/Flag_of_Canada.svg',
-		area: 9976140,
-		population: 36624199,
-	},
-	{
-		name: 'United States',
-		flag: 'a/a4/Flag_of_the_United_States.svg',
-		area: 9629091,
-		population: 324459463,
-	},
-	{
-		name: 'China',
-		flag: 'f/fa/Flag_of_the_People%27s_Republic_of_China.svg',
-		area: 9596960,
-		population: 1409517397,
-	},
-];
 
 @Component({
   selector: 'app-root',
@@ -43,7 +17,7 @@ const COUNTRIES: Country[] = [
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit  {
-  countries = COUNTRIES;
+  precioValido = false;
   form: any;
   platos: any = [];
   option = '';
@@ -57,6 +31,8 @@ export class AppComponent implements OnInit  {
   }
 
   listarPlatos(){
+    this.plato = {}
+    this.precioValido = false;
     this.appService.listarPlatos().subscribe({
       next: (resp: any) => {
         console.log(resp.resultado);
@@ -78,8 +54,19 @@ export class AppComponent implements OnInit  {
     });
   }
 
+  changePrecio(): any{
+    this.precioValido = false;
+    if(this.form.get('precio').value < '9'){
+      return this.precioValido = true;
+    }
+  }
+
   open(content: any, option: string, platoEdit?: any) {
+    
     this.option = option;
+
+   
+    
     if(platoEdit){
       this.plato = platoEdit;
 
@@ -120,9 +107,10 @@ export class AppComponent implements OnInit  {
         
 			},
 			(reason) => {
-				
+				this.plato = {}
 			},
 		);
+
 	}
 
   deletePlatos(id: string){

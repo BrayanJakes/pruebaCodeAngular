@@ -21,7 +21,7 @@
 		<tr *ngFor="let plato of platos; index as i">
 			<th scope="row">{{ i + 1 }}</th>
 			<td> {{ plato.nombre }} </td>
-			<td> {{ plato.precio }} </td>
+			<td> {{ plato.precio }}$ </td>
 			<td> {{ plato.campos }} </td>
 			<td> {{ plato.fecha }} </td>
 			<td> {{ plato.color }} </td>
@@ -40,6 +40,11 @@
 		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
 	</div>
 	<div class="modal-body">
+    <p>
+      <ngb-alert *ngIf="precioValido">
+        <strong>Error!</strong> Debe colocar un monto superior a 9$.
+      </ngb-alert>
+    </p>
 		<form [formGroup]="form">
 			<div class="mb-3">
 				<label>Nombre del plato</label>
@@ -55,6 +60,7 @@
 				<label>Precio</label>
 				<div class="input-group">
 					<input type="number"
+          (change)="changePrecio()"
           formControlName="precio"
 						class="form-control"
 					/>
